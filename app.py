@@ -5,8 +5,8 @@ from pydantic import BaseModel
 import httpx
 
 app = FastAPI(
-    title="${{ values.name }}",
-    description="${{ values.description }}"
+    title="llm-test",
+    description="llm-test service"
 )
 
 LITELLM_URL = os.getenv("LITELLM_URL", "http://litellm.llmops.svc.cluster.local:4000")
@@ -32,7 +32,7 @@ async def generate(req: PromptRequest):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "${{ values.name }}"}
+    return {"status": "ok", "service": "llm-test"}
 
 # S61 (Jeudi) : page de demo minimale -- juste pour rendre l'appel /generate
 # visible en direct devant un public (un curl seul ne raconte rien).

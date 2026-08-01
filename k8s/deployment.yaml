@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${{ values.name }}
+  name: llm-test
   labels:
-    app: ${{ values.name }}
+    app: llm-test
     dxp.io/managed: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ${{ values.name }}
+      app: llm-test
   template:
     metadata:
       labels:
-        app: ${{ values.name }}
-        backstage.io/kubernetes-id: ${{ values.name }}
+        app: llm-test
+        backstage.io/kubernetes-id: llm-test
     spec:
       nodeSelector:
         role: workload
@@ -24,8 +24,8 @@ spec:
         value: workload
         effect: NoSchedule
       containers:
-      - name: ${{ values.name }}
-        image: harbor.dxp/dxp/${{ values.name }}:latest
+      - name: llm-test
+        image: harbor.harbor.svc.cluster.local/dxp/llm-test:3c69328
         imagePullPolicy: Always
         envFrom:
         - secretRef:
@@ -62,10 +62,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ${{ values.name }}
+  name: llm-test
 spec:
   selector:
-    app: ${{ values.name }}
+    app: llm-test
   ports:
   - port: 80
     targetPort: 8000
@@ -74,20 +74,20 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ${{ values.name }}
+  name: llm-test
   labels:
-    app: ${{ values.name }}
+    app: llm-test
     dxp.io/managed: "true"
 spec:
   ingressClassName: nginx
   rules:
-  - host: ${{ values.name }}.68.221.5.247.nip.io
+  - host: llm-test.68.221.5.247.nip.io
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: ${{ values.name }}
+            name: llm-test
             port:
               number: 80

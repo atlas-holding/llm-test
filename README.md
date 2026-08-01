@@ -1,6 +1,6 @@
-# ${{ values.name }}
+# llm-test
 
-${{ values.description }}
+llm-test service
 
 ## Stack
 - Python · FastAPI · LiteLLM Gateway
